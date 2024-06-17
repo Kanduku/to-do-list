@@ -1,12 +1,10 @@
 import Link from "next/link";
-import RemoveBtn from "./RemoveBtn";
+import RemoveBtn from "./Removebtn";
 import { HiPencilAlt } from "react-icons/hi";
 
 const getTopics = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/topics", {
-      cache: "no-store",
-    });
+    const res = await fetch("http://localhost:3000/api/topics");
 
     if (!res.ok) {
       throw new Error("Failed to fetch topics");
