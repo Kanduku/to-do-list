@@ -7,7 +7,7 @@ const getTopics = async () => {
   const baseUrl = `http://localhost:${port}`;
 
   try {
-    const res = await fetch(`${baseUrl}/api/topics`, {
+    const res = await fetch('/api/topics', {
       cache: "no-store",
     });
 
