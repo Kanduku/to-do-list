@@ -18,7 +18,7 @@ export default function AddTopic() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/topics", {
+      const res = await fetch('/api/topics', {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -28,6 +28,7 @@ export default function AddTopic() {
 
       if (res.ok) {
         router.push("/");
+        router.refresh();
       } else {
         throw new Error("Failed to create a topic");
       }
