@@ -1,28 +1,50 @@
+'use client'
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import RemoveBtn from "./Removebtn";
 import { HiPencilAlt } from "react-icons/hi";
 
-const getTopics = async () => {
-  const port = process.env.PORT || 3000;
-  const baseUrl = `http://localhost:${port}`;
+export default function TopicsList() {
+  const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  try {
-    const res = await fetch('/api/topics', {
-      cache: "no-store",
-    });
+  useEffect(() => {
+    const fetchTopics = async () => {
+  
+      try {
+        const res = await fetch(`/api/topics`, {
+          cache: "no-store",
+        });
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch topics");
-    }
+        if (!res.ok) {
+          throw new Error("Failed to fetch topics");
+        }
 
-    return res.json();
-  } catch (error) {
-    console.log("Error loading topics: ", error);
+        const data = await res.json();
+        setTopics(data.topics);
+      } catch (error) {
+        console.error("Error loading topics:", error);
+        setError("Failed to load topics");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopics();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-};
 
-export default async function TopicsList() {
-  const {topics}  = await getTopics();
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!topics || topics.length === 0) {
+    return <div>No topics available.</div>;
+  }
 
   return (
     <>
